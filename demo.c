@@ -3,11 +3,11 @@
 //
 
 #include <stdio.h>
-#include "modules/errors_and_logging.h"
-#include "modules/common_bindings.h"
-#include "modules/math.h"
+#include "common_bindings.h"
+#include "argument_parsing.h"
 
 int main(void) {
+#if (0 == 1)
     printf("hello you!\n");
     printf("this is a file where you can try sml_lib without copying it :D\n");
 
@@ -28,6 +28,17 @@ int main(void) {
     // note that using --fast-math will change the output since we are not using any platform/compiler-specific instructions
     // or any fancy tricks. This is pure math/skill issues.
     sml_throw_error(&err_conf, ERROR_OK, LOG_SEVERITY_INFO, "DONE!, %s", "With Style");
-
+#else
+    sml_arg* arg_1 = new_sml_arg(sml_arg_type_basic, "SML", "SmallMalfunctionLangaugae", "Malfunction");
+    sml_arg_array* args = new_sml_arg_array(1);
+    sml_arg_array_append(args, arg_1);
+    sml_arg_array_append(args, arg_1);
+    sml_arg_array_append(args, arg_1);
+    sml_arg_array_append(args, arg_1);
+    sml_arg_array_append(args, arg_1);
+    sml_arg_print_usages(args);
+    free_sml_arg_array(args);
+    printf("done");
+#endif
     return 0;
 }

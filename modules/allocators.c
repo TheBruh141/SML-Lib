@@ -27,6 +27,7 @@ void *sml_alloc(unsigned long long how_much, unsigned long long sizeof_mem) {
 
 void *__attribute_malloc__ sml_malloc(unsigned long long size) {
     void *new_mem = malloc(size);
+    CHECK(new_mem == NULL);
     return new_mem;
 }
 

@@ -10,6 +10,8 @@ add_library(sml_dialect
         modules/errors_and_logging.c
         modules/math.c
         modules/math.h
+        modules/argument_parsing.c
+        modules/argument_parsing.h
 )
 
 # Define the header files for the library (if needed)

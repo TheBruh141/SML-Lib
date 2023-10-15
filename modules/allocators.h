@@ -3,6 +3,7 @@
 //
 
 #ifndef SML_DIALECT_ALLOCATORS_H
+#define SML_DIALECT_ALLOCATORS_H
 
 void *sml_alloc(unsigned long long how_much, unsigned long long sizeof_mem);
 
@@ -18,6 +19,5 @@ void *sml_realloc(void *ptr, unsigned long long new_requested_size);
 void *sml_realloc_s(void *ptr, unsigned long long new_requested_size);
 
 
-#define SML_DIALECT_ALLOCATORS_H
 
 #endif //SML_DIALECT_ALLOCATORS_H

@@ -9,9 +9,7 @@
 #define MAX_SML_NAME_LEN 128
 #define PREDIFINED_LOG_FILE_PATH "./logs/"
 
-#ifdef CHECK
-#undef CHECK
-#endif
+#ifndef CHECK
 #include <stdlib.h>
 #define CHECK(condition) \
     do { \
@@ -20,6 +18,7 @@
             exit(-1); \
         } \
     } while (0)
+#endif
 
 
 #include <stdbool.h>
