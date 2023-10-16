@@ -57,28 +57,28 @@ int sml_min(int x, int y) {
     return x < y ? x : y;
 }
 
-sml_size_t sml_fac_size_t(double x) // returns the factorial of a number (in sml_size_t)
+sml_size sml_fac_size_t(double x) // returns the factorial of a number (in sml_size_t)
 {
-    sml_size_t result = 1;
+    sml_size result = 1;
     for (int i = 1; i <= x; i++) {
         result *= i;
     }
     return result;
 }
 
-sml_size_t sml_fac_size_t_int(sml_size_t_s x) // returns the factorial of a number (in sml_size_t)
+sml_size sml_fac_size_t_int(sml_size_s x) // returns the factorial of a number (in sml_size_t)
 {
-    sml_size_t result = 1;
-    for (sml_size_t i = 1; i <= x; i++) {
+    sml_size result = 1;
+    for (sml_size i = 1; i <= x; i++) {
         result *= i;
     }
     return result;
 }
 
-sml_size_t sml_fac_size_t_unsigned(sml_size_t x) // returns the factorial of an unsigned number (in sml_size_t)
+sml_size sml_fac_size_t_unsigned(sml_size x) // returns the factorial of an unsigned number (in sml_size_t)
 {
-    sml_size_t result = 1;
-    for (sml_size_t i = 1; i <= x; i++) {
+    sml_size result = 1;
+    for (sml_size i = 1; i <= x; i++) {
         result *= i;
     }
     return result;
@@ -97,10 +97,10 @@ int sml_fac_int(int n) {
 
 #pragma clang diagnostic pop
 
-long double sml_e(sml_size_t accuracy) {
+long double sml_e(sml_size accuracy) {
     // Returns the value of the mathematical constant e.
     long double e = 0;
-    for (sml_size_t i = 1; i <= accuracy; i++) {
+    for (sml_size i = 1; i <= accuracy; i++) {
         e = 1 + sml_pow(sml_fac_size_t_unsigned(i), -1);
     }
     return e;
@@ -112,7 +112,7 @@ double sml_float_min(double x, double y) {
     return x < y ? x : y;
 }
 
-float sml_pow_basic(double x, sml_size_t expo) {
+float sml_pow_basic(double x, sml_size expo) {
     double result = x;
     for (; expo != 0; expo--) {
         result *= x;
@@ -142,7 +142,7 @@ int sml_pow_basic_int(int base, int exp) {
 bool sml_is_prime(unsigned long long num) {
     bool is_prime = 1;
 
-    for (sml_size_t loop = 2; loop < num; loop++) {
+    for (sml_size loop = 2; loop < num; loop++) {
         if ((num % loop) == 0) {
             is_prime = 0;
         }
@@ -154,7 +154,7 @@ bool sml_is_prime(unsigned long long num) {
 // if for some reason you encounter any errors try changing the Stack_Size
 // to a different number. Don't forget that when it's n < 10 you will get a
 // cached value
-sml_size_t sml_nth_prime(sml_size_t nth_prime) {
+sml_size sml_nth_prime(sml_size nth_prime) {
 
     // cache the first 10 sml_nth_prime numbers for performance
     switch (nth_prime) {
@@ -182,8 +182,8 @@ sml_size_t sml_nth_prime(sml_size_t nth_prime) {
             break;
     }
 
-    sml_size_t prime_counter = 10;
-    sml_size_t last_pos = 30;
+    sml_size prime_counter = 10;
+    sml_size last_pos = 30;
 
     while (prime_counter <= nth_prime) {
         if (sml_is_prime(last_pos++)) {
@@ -193,11 +193,11 @@ sml_size_t sml_nth_prime(sml_size_t nth_prime) {
     return prime_counter;
 }
 
-sml_size_t sml_greatest_common_divisor(sml_size_t num1, sml_size_t num2) // returns the greatest common divisor (GCD)
+sml_size sml_greatest_common_divisor(sml_size num1, sml_size num2) // returns the greatest common divisor (GCD)
 {
 
-    sml_size_t gcd;
-    for (sml_size_t i = 1; i <= num1 && i <= num2; ++i) {
+    sml_size gcd;
+    for (sml_size i = 1; i <= num1 && i <= num2; ++i) {
         // Checks if i is factor of both integers
         if (num1 % i == 0 && num2 % i == 0)
             gcd = i;
@@ -205,9 +205,9 @@ sml_size_t sml_greatest_common_divisor(sml_size_t num1, sml_size_t num2) // retu
     return gcd;
 }
 
-sml_size_t sml_smallest_common_multiple(sml_size_t num1, sml_size_t num2) // returns the smallest common multiple (GCM)
+sml_size sml_smallest_common_multiple(sml_size num1, sml_size num2) // returns the smallest common multiple (GCM)
 {
-    sml_size_t max = (num1 > num2) ? num1 : num2;
+    sml_size max = (num1 > num2) ? num1 : num2;
 
     while (1) {
         if ((max % num1 == 0) && (max % num2 == 0)) {
@@ -282,7 +282,7 @@ long double sml_pow10(double x) // Returns 10 raised to the power of x.
     return sml_pow(x, 10);
 }
 
-long double sml_pow_only_positive(long double base, sml_size_t expo) //  Returns x^y if y > 0
+long double sml_pow_only_positive(long double base, sml_size expo) //  Returns x^y if y > 0
 {
     CHECK(expo >= 0);
     long double power = 1;
@@ -363,7 +363,7 @@ static double sml_internal_f_prime(double x, int p) {
 // if you need a better solution please implement it and I will make sure to add it to the library.
 //  :D
 
-double sml_nth_root_double(double num, sml_size_t_s p) {
+double sml_nth_root_double(double num, sml_size_s p) {
 
     if (num < 0) {
 #ifdef SML_LIB_ERRORS_AND_LOGGING_H
@@ -424,12 +424,12 @@ long double sml_pow(long double base, long double expo) // Returns x raised to t
         // this means that if the number is not a whole number we should do this
         // nth_root(base) where n is b times a .
 
-        sml_size_t_s numerator, denominator, power;
+        sml_size_s numerator, denominator, power;
         numerator = SML_GET_FLOAT_OF_FLOATING(expo);
         denominator = 1;
 
         // find how many digits are after 0.
-        for (sml_size_t_s temp_numerator = numerator; temp_numerator < 1; temp_numerator *= 10, denominator *= 10);
+        for (sml_size_s temp_numerator = numerator; temp_numerator < 1; temp_numerator *= 10, denominator *= 10);
         power = numerator * sml_nth_root_double(base, denominator);
         return power;
     }
@@ -618,7 +618,7 @@ double sml_fmod(double x, double y) // Returns the remainder when x is divided b
 // Returns the nth fibonacci number.
 // Standard algorithm.
 // > It ain't much but it's honest work
-sml_size_t sml_fib(sml_size_t n) {
+sml_size sml_fib(sml_size n) {
     if (n <= 0ULL) {
         return 0ULL;
     } else if (n == 1ULL) {
@@ -790,7 +790,7 @@ void sml_math_t_print(sml_math_t *num, FILE *stream) {
 
 
 // create a matrix
-sml_matrix_t *sml_matrix_create(sml_size_t rows, sml_size_t cols) {
+sml_matrix_t *sml_matrix_create(sml_size rows, sml_size cols) {
     // Allocate memory for the sml_matrix_t structure
     sml_matrix_t *matrix = (sml_matrix_t *) malloc(sizeof(sml_matrix_t));
 
@@ -815,14 +815,14 @@ sml_matrix_t *sml_matrix_create(sml_size_t rows, sml_size_t cols) {
     }
 
     // Allocate memory for the data arrays for each row
-    for (sml_size_t i = 0; i < rows; i++) {
+    for (sml_size i = 0; i < rows; i++) {
         matrix->data[i] = (sml_math_t *) malloc(cols  * sizeof(sml_math_t));
 
         if (matrix->data[i] == NULL) {
             // Handle allocation failure if needed
             perror("Memory allocation failed");
             // Free previously allocated memory
-            for (sml_size_t j = 0; j < i; j++) {
+            for (sml_size j = 0; j < i; j++) {
                 free(matrix->data[j]);
             }
             free(matrix->data);
@@ -841,7 +841,7 @@ void sml_matrix_destroy(sml_matrix_t *matrix) {
 
 // Function to free a sml_matrix_t structure and its data
     if (matrix != NULL) {
-        for (sml_size_t i = 0; i < matrix->rows; i++) {
+        for (sml_size i = 0; i < matrix->rows; i++) {
             free(matrix->data[i]);
         }
         if (matrix->data != NULL) {
@@ -865,7 +865,7 @@ void sml_matrix_print(sml_matrix_t *matrix) {
     }
     printf("╗\n");
 
-    for (sml_size_t row = 0; row < matrix->rows; ++row) {
+    for (sml_size row = 0; row < matrix->rows; ++row) {
         printf("║ ");
         for (int col = 0; col < matrix->cols; ++col) {
             printf("%8.2Lf ", matrix->data[row][col].value);
@@ -898,7 +898,7 @@ void sml_matrix_print(sml_matrix_t *matrix) {
 }
 
 void sml_matrix_zero_init(sml_matrix_t *matrix) {
-    for (sml_size_t row = 0; row < matrix->rows; ++row) {
+    for (sml_size row = 0; row < matrix->rows; ++row) {
         for (int col = 0; col < matrix->cols; ++col) {
             matrix->data[col][row].value = 0;
         }
@@ -914,12 +914,12 @@ sml_matrix_t *sml_matrix_dup(sml_matrix_t *src) {
 // transposes the matrix
 sml_matrix_t *sml_matrix_transpose(sml_matrix_t *matrix) {
 
-    sml_size_t transpose_rows = matrix->cols;
-    sml_size_t transpose_cols = matrix->rows;
+    sml_size transpose_rows = matrix->cols;
+    sml_size transpose_cols = matrix->rows;
     sml_matrix_t *transpose = sml_matrix_create(transpose_rows, transpose_cols);
 
-    for (sml_size_t i = 0; i < transpose_rows; i++) {
-        for (sml_size_t j = 0; j < matrix->cols; j++) {
+    for (sml_size i = 0; i < transpose_rows; i++) {
+        for (sml_size j = 0; j < matrix->cols; j++) {
             transpose->data[i][j] = matrix->data[j][i];
         }
     }

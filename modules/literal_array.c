@@ -9,7 +9,7 @@
 #include <stddef.h>
 #include <stdio.h>
 
-static sml_size_t sml_internal_round_up_pow2(sml_size_t n) {
+static sml_size sml_internal_round_up_pow2(sml_size n) {
     // If n is already a power of two, return it as is
     if ((n & (n - 1)) == 0) {
         return n;
@@ -30,8 +30,8 @@ static sml_size_t sml_internal_round_up_pow2(sml_size_t n) {
 // this generates a new array with your desired type
 void *sml_new_array(sml_array_types type, void *contents, unsigned long long int size_of_contents_per_element) {
 
-    sml_size_t last_pos = sizeof(contents) / size_of_contents_per_element;
-    sml_size_t sizeof_array = sml_internal_round_up_pow2(last_pos);
+    sml_size last_pos = sizeof(contents) / size_of_contents_per_element;
+    sml_size sizeof_array = sml_internal_round_up_pow2(last_pos);
 
     switch (type) {
 

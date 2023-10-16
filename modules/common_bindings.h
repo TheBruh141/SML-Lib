@@ -28,10 +28,12 @@
 (typeof(*(array)) *p = (array), (item) = *p; p < &((array)[length]); p++, (item) = *p)
 
 #define sml_byte_t unsigned char
+#define sml_byte4_t sml_byte_t[4]
+#define sml_byte8_t sml_byte_t[8]
 
-#define sml_size_t unsigned long long
+#define sml_size unsigned long long
 // signed version of sml_size_t
-#define sml_size_t_s long long
+#define sml_size_s long long
 
 
 #endif //SML_DIALECT_COMMON_BINDINGS_H

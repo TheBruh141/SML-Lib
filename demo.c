@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "common_bindings.h"
 #include "argument_parsing.h"
+#include "for_each.h"
 
 int main(void) {
 #if (0 == 1)
@@ -29,16 +30,68 @@ int main(void) {
     // or any fancy tricks. This is pure math/skill issues.
     sml_throw_error(&err_conf, ERROR_OK, LOG_SEVERITY_INFO, "DONE!, %s", "With Style");
 #else
-    sml_arg* arg_1 = new_sml_arg(sml_arg_type_basic, "SML", "SmallMalfunctionLangaugae", "Malfunction");
-    sml_arg_array* args = new_sml_arg_array(1);
-    sml_arg_array_append(args, arg_1);
-    sml_arg_array_append(args, arg_1);
-    sml_arg_array_append(args, arg_1);
-    sml_arg_array_append(args, arg_1);
-    sml_arg_array_append(args, arg_1);
-    sml_arg_print_usages(args);
-    free_sml_arg_array(args);
-    printf("done");
+    sml_arg_parse_cfg cfg[] = {
+            {"-Wall",    "Invalid usage of -Wall",    "Enable all warnings"},
+            {"-Wextra",  "Invalid usage of -Wextra",  "Enable extra warnings"},
+            {"-grep",    "Invalid usage of -grep",    "Search for a string"},
+            {"-O",       "Invalid usage of -O",       "Set optimization level"},
+            {"-feature", "Invalid usage of -feature", "Enable or disable a feature"},
+    };
+
+    // Sample argument definitions
+    sml_arg args[] = {
+            {sml_arg_type_basic,  "-Wall",    "--enable-warnings",       "Enable all warnings"},
+            {sml_arg_type_basic,  "-Wextra",  "--enable-extra-warnings", "Enable extra warnings"},
+            {sml_arg_type_string, "-grep",    "--search",                "Search for a string"},
+            {sml_arg_type_digit,  "-O",       "--optimization-level",    "Set optimization level"},
+            {sml_arg_type_yes_no, "-feature", "--enable-feature",        "Enable or disable a feature"},
+    };
+
+    sml_arg_array arg_array;
+    arg_array.arguments = args;
+    arg_array.capacity = sizeof(args) / sizeof(sml_arg);
+    arg_array.last_element_index = arg_array.capacity;
+
+    // Test Case 1: Basic Argument - Testing basic arguments -Wall and -Wextra
+    char *test_case1[] = {"program", "-Wall", "-Wextra"};
+    if (sml_arg_parse(3, test_case1, &arg_array, cfg)) {
+        printf("Test Case 1 Passed\n");
+    } else {
+        printf("Test Case 1 Failed\n");
+    }
+
+    // Test Case 2: String Argument - Testing string argument -grep "asd"
+    char *test_case2[] = {"program", "-grep", "asd"};
+    if (sml_arg_parse(3, test_case2, &arg_array, cfg)) {
+        printf("Test Case 2 Passed\n");
+    } else {
+        printf("Test Case 2 Failed\n");
+    }
+
+    // Test Case 3: Digit Argument - Testing digit argument -O3
+    char *test_case3[] = {"program", "-O3"};
+    if (sml_arg_parse(2, test_case3, &arg_array, cfg)) {
+        printf("Test Case 3 Passed\n");
+    } else {
+        printf("Test Case 3 Failed\n");
+    }
+
+    // Test Case 4: Yes/No Argument - Testing yes/no argument -feature=true
+    char *test_case4[] = {"program", "-feature=true"};
+    if (sml_arg_parse(2, test_case4, &arg_array, cfg)) {
+        printf("Test Case 4 Passed\n");
+    } else {
+        printf("Test Case 4 Failed\n");
+    }
+
+    // Test Case 5: Invalid Argument - Testing an invalid argument -xyz
+    char *test_case5[] = {"program", "-xyz"};
+    if (!sml_arg_parse(2, test_case5, &arg_array, cfg)) {
+        printf("Test Case 5 Passed\n");
+    } else {
+        printf("Test Case 5 Failed\n");
+    }
+
 #endif
     return 0;
 }

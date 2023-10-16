@@ -12,6 +12,9 @@ add_library(sml_dialect
         modules/math.h
         modules/argument_parsing.c
         modules/argument_parsing.h
+        modules/for_each.h
+        modules/sml_str.c
+        modules/sml_str.h
 )
 
 # Define the header files for the library (if needed)
