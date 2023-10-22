@@ -24,7 +24,7 @@ _Bool sml_str_double_capacity(sml_str *contents);
 _Bool sml_str_double_capacity_force(sml_str *contents);
 
 
-void sml_str_append(sml_str *dest, char *to_append);
+_Bool sml_str_append(sml_str *dest, char *to_append);
 
 
 // prints the help message for this library.

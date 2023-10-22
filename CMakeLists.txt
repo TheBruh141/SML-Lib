@@ -15,6 +15,8 @@ add_library(sml_dialect
         modules/for_each.h
         modules/sml_str.c
         modules/sml_str.h
+        modules/file_utils.c
+        modules/file_utils.h
 )
 
 # Define the header files for the library (if needed)

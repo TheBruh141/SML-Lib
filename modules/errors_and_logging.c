@@ -215,16 +215,16 @@ void sml_throw_error_non_blocking(sml_error_config *cfg, enum sml_error_codes er
     }
 }
 
-sml_error_config init_sml_error(char *name, bool has_log_file, char *log_file_location) {
-    sml_error_config result;
+sml_error_config *sml_errors_and_logging_init(const char *name, bool has_log_file, const char *log_file_location) {
+    sml_error_config *result = (sml_error_config *) malloc(sizeof(sml_error_config));
+
+
 
     // Ensure name is not too long
-    strncpy(result.name, name, sizeof(result.name) - 1);
-    result.name[sizeof(result.name) - 1] = '\0';
-
-    result.has_log_file = has_log_file;
-    result.log_file_location = log_file_location;
-    result.has_set_log_file = (has_log_file && log_file_location == NULL) ? PREDIFINED_LOG_FILE_PATH : false;
+    result->name = name;
+    result->has_log_file = has_log_file;
+    result->log_file_location = log_file_location;
+    result->has_set_log_file = (has_log_file && log_file_location == NULL) ? PREDIFINED_LOG_FILE_PATH : false;
 
     return result;
 }
@@ -233,22 +233,23 @@ sml_error_config init_sml_error(char *name, bool has_log_file, char *log_file_lo
 
 void test_error_lib(void) {
 
-    sml_error_config cfg = init_sml_error("test_error_lib", false, NULL);
-    sml_throw_error(&cfg, ERROR_GENERIC, LOG_SEVERITY_DEBUG, "test_error_lib");
-    sml_throw_error(&cfg, ERROR_GENERIC, LOG_SEVERITY_INFO, "test_error_lib");
-    sml_throw_error(&cfg, ERROR_GENERIC, LOG_SEVERITY_WARNING, "test_error_lib");
-    sml_throw_error(&cfg, ERROR_GENERIC, LOG_SEVERITY_ERROR, "test_error_lib");
-    sml_throw_error(&cfg, ERROR_GENERIC, LOG_SEVERITY_DEPRECATION, "test_error_lib");
+    sml_error_config *cfg = sml_errors_and_logging_init("test_error_lib", false, NULL);
+    sml_throw_error(cfg, ERROR_GENERIC, LOG_SEVERITY_DEBUG, "test_error_lib");
+    sml_throw_error(cfg, ERROR_GENERIC, LOG_SEVERITY_INFO, "test_error_lib");
+    sml_throw_error(cfg, ERROR_GENERIC, LOG_SEVERITY_WARNING, "test_error_lib");
+    sml_throw_error(cfg, ERROR_GENERIC, LOG_SEVERITY_ERROR, "test_error_lib");
+    sml_throw_error(cfg, ERROR_GENERIC, LOG_SEVERITY_DEPRECATION, "test_error_lib");
 
     printf("changing cfg to file based\n");
-    cfg = init_sml_error("test_error_lib", true, "test_error_lib.log");
-    sml_throw_error(&cfg, ERROR_GENERIC, LOG_SEVERITY_DEBUG, "test_error_lib");
-    sml_throw_error(&cfg, ERROR_GENERIC, LOG_SEVERITY_INFO, "test_error_lib");
-    sml_throw_error(&cfg, ERROR_GENERIC, LOG_SEVERITY_WARNING, "test_error_lib");
-    sml_throw_error(&cfg, ERROR_GENERIC, LOG_SEVERITY_ERROR, "test_error_lib");
-    sml_throw_error(&cfg, ERROR_GENERIC, LOG_SEVERITY_DEPRECATION, "test_error_lib");
-    printf("done\n");
+    cfg = sml_errors_and_logging_init("test_error_lib", true, "test_error_lib.log");
+    sml_throw_error(cfg, ERROR_GENERIC, LOG_SEVERITY_DEBUG, "test_error_lib");
+    sml_throw_error(cfg, ERROR_GENERIC, LOG_SEVERITY_INFO, "test_error_lib");
+    sml_throw_error(cfg, ERROR_GENERIC, LOG_SEVERITY_WARNING, "test_error_lib");
+    sml_throw_error(cfg, ERROR_GENERIC, LOG_SEVERITY_ERROR, "test_error_lib");
+    sml_throw_error(cfg, ERROR_GENERIC, LOG_SEVERITY_DEPRECATION, "test_error_lib");
+    free(cfg);
 
+    printf("done\n");
 }
 
 #else

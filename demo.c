@@ -6,6 +6,8 @@
 #include "common_bindings.h"
 #include "argument_parsing.h"
 #include "for_each.h"
+#include "file_utils.h"
+#include "sml_str.h"
 
 int main(void) {
 #if (0 == 1)
@@ -29,7 +31,8 @@ int main(void) {
     // note that using --fast-math will change the output since we are not using any platform/compiler-specific instructions
     // or any fancy tricks. This is pure math/skill issues.
     sml_throw_error(&err_conf, ERROR_OK, LOG_SEVERITY_INFO, "DONE!, %s", "With Style");
-#else
+#elif(2 == 1)
+
     sml_arg_parse_cfg cfg[] = {
             {"-Wall",    "Invalid usage of -Wall",    "Enable all warnings"},
             {"-Wextra",  "Invalid usage of -Wextra",  "Enable extra warnings"},
@@ -91,6 +94,7 @@ int main(void) {
     } else {
         printf("Test Case 5 Failed\n");
     }
+#else
 
 #endif
     return 0;

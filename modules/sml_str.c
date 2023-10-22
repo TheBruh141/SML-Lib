@@ -19,8 +19,8 @@ sml_str *sml_str_new(char *contents) {
 
     new->capacity = len;
     new->last_index = len;
-    new->contents = contents;
-
+    new->contents = (char*) malloc(sizeof(char) * len);
+    memcpy(new->contents, contents, len);
     return new;
 }
 
@@ -51,12 +51,22 @@ _Bool sml_str_double_capacity_force(sml_str *contents) {
     memcpy(new_content, contents->contents, contents->capacity / 2);
     free(contents->contents);
     contents->contents = new_content;
-    return SML_STR_SUCCESS
+    return SML_STR_SUCCESS;
 }
 
 
 _Bool sml_str_append(sml_str *dest, char *to_append) {
-
+    sml_size len = strlen(to_append);
+    while (dest->capacity <= len + dest->last_index) {
+        if (SML_STR_FAIL == sml_str_double_capacity(dest)) {
+            if (SML_STR_FAIL == sml_str_double_capacity_force(dest)) {
+                return SML_STR_FAIL;
+            }
+        }
+    }
+    for (sml_size i = 0; i < len; i++) {
+        dest->contents[dest->last_index + i] = to_append[i];
+    }
 }
 
 
