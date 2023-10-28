@@ -55,8 +55,8 @@ char *sml_file_read(FILE *f, sml_error_config *err_cfg) {
 }
 
 // concatenates 2 files.
-// NOTE: concat_file_identifier is is the path of the object. i.e.: "Hello_world.txt", "../../"settings.toml"
-// NOTE: if there is no error config you can just put NULL and the library will handle it for your :D
+// NOTE: concat_file_identifier is the path of the object. i.e.: "Hello_world.txt", "../../"settings.toml"
+// NOTE: if there is no error config, you can just put NULL and the library will handle it for your :D
 FILE *sml_file_concat(FILE *f1, FILE *f2, char *concat_file_identifier, sml_error_config *error_config) {
     sml_size s1 = sml_get_file_size(f1);
     sml_size s2 = sml_get_file_size(f2);

@@ -19,7 +19,7 @@ sml_str *sml_str_new(char *contents) {
 
     new->capacity = len;
     new->last_index = len;
-    new->contents = (char*) malloc(sizeof(char) * len);
+    new->contents = (char *) malloc(sizeof(char) * len);
     memcpy(new->contents, contents, len);
     return new;
 }
@@ -69,12 +69,61 @@ _Bool sml_str_append(sml_str *dest, char *to_append) {
     }
 }
 
+char *sml_str_get_sub_str(char *str, sml_size start, sml_size end) {
+    if (NULL == str) {
+        fprintf(stderr,
+                "[SML_STR_LIB] : str cannot point to null.\n\t=> File Name :: %s, Line :: %d, Function Parameters ::  %s",
+                __FILE__, __LINE__, __PRETTY_FUNCTION__ );
+        return (char *) SML_STR_FAIL;
+    }
+    if (strlen(str) < end || start > strlen(str)) {
+        fprintf(stderr,
+                "[SML_STR_LIB] : string append failed in \nfile : %s\nline %d\n\t=> start or end cannot exceed the strings boundaries for memory safety and general program health (damn this is too formal)\n\tSTART = %llu, END = %llu, STRING BOUNDS (0,%lu)",
+                __FILE__, __LINE__, start, end, strlen(str));
+        return (char *) SML_STR_FAIL;
+    }
+
+
+}
+//
+//// ----- Algorithms ----
+//
+//// the most basic and the most unoptimized solution.
+//// PROS: has no preprocessing and minimal memory requirements.
+//// CONS: SLOW!
+//// TIME COMPLEXITY: O(mn), where m and n are the length of the strings.
+//sml_sub_str_arr sml_str_find_substring_naive(char *string, char *pattern) {
+//    sml_size count = 0;
+//    sml_size str_len = strlen(string);
+//    sml_size pattern_len = strlen(pattern);
+//
+//    sml_size capacity = str_len / pattern_len;
+//    sml_sub_str_arr arr = (sml_sub_str_arr) {
+//            .capacity = capacity,
+//            .contents = malloc(capacity * sizeof(char)),
+//            .last_index = 0,
+//    };
+//
+//    for (sml_size i = 0; i <= str_len - pattern_len; i++) {
+//        int j;
+//        for (j = 0; j < pattern_len; j++) {
+//            if (pattern[j] != string[i + j]) {
+//                break;
+//            }
+//        }
+//        if (j == pattern_len) {
+//            count++;
+//        }
+//    }
+//
+//    return count;
+//}
 
 void sml_str_help() {
 
     printf("[SML_STR_LIB] : ");
     printf("\t # Defines ");
-    printf("1. MAKE_GENERIC : removes the prefix from types defined in this module. ie. sml_str -> str");
+    printf("1. SML_STR_MAKE_GENERIC : removes the prefix from types defined in this module. ie. sml_str -> str");
 
 }
 

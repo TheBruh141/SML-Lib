@@ -36,21 +36,21 @@ void *sml_new_array(sml_array_types type, void *contents, unsigned long long int
     switch (type) {
 
         case _byte: {
-            sml_array_byte_t *new_array = (sml_array_byte_t *) sml_alloc(sizeof(sml_array_byte_t), 1);
+            sml_array_byte_t *new_array = (sml_array_byte_t *) sml_mem_alloc(sizeof(sml_array_byte_t), 1);
             new_array->contents = (typeof(new_array->contents)) contents;
             new_array->last_pos = last_pos;
             new_array->capacity = sizeof_array;
             return new_array;
         }
         case _boolean: {
-            sml_array_bool_t *new_array = (sml_array_bool_t *) sml_alloc(sizeof(sml_array_bool_t), 1);
+            sml_array_bool_t *new_array = (sml_array_bool_t *) sml_mem_alloc(sizeof(sml_array_bool_t), 1);
             new_array->contents = (typeof(new_array->contents)) contents;
             new_array->last_pos = last_pos;
             new_array->capacity = sizeof_array;
             return new_array;
         }
         case _unsigned_short_int: {
-            sml_array_usint_t *new_array = (sml_array_usint_t *) sml_alloc(sizeof(sml_array_usint_t), 1);
+            sml_array_usint_t *new_array = (sml_array_usint_t *) sml_mem_alloc(sizeof(sml_array_usint_t), 1);
             new_array->contents = (typeof(new_array->contents)) contents;
             new_array->last_pos = last_pos;
             new_array->capacity = sizeof_array;
@@ -58,7 +58,7 @@ void *sml_new_array(sml_array_types type, void *contents, unsigned long long int
 
         }
         case _unsigned_int: {
-            sml_array_uint_t *new_array = (sml_array_uint_t *) sml_alloc(sizeof(sml_array_uint_t), 1);
+            sml_array_uint_t *new_array = (sml_array_uint_t *) sml_mem_alloc(sizeof(sml_array_uint_t), 1);
             new_array->contents = (typeof(new_array->contents)) contents;
             new_array->last_pos = last_pos;
             new_array->capacity = sizeof_array;
@@ -66,7 +66,7 @@ void *sml_new_array(sml_array_types type, void *contents, unsigned long long int
 
         }
         case _short_int: {
-            sml_array_sint_t *new_array = (sml_array_sint_t *) sml_alloc(sizeof(sml_array_sint_t), 1);
+            sml_array_sint_t *new_array = (sml_array_sint_t *) sml_mem_alloc(sizeof(sml_array_sint_t), 1);
             new_array->contents = (typeof(new_array->contents)) contents;
             new_array->last_pos = last_pos;
             new_array->capacity = sizeof_array;
@@ -74,7 +74,7 @@ void *sml_new_array(sml_array_types type, void *contents, unsigned long long int
 
         }
         case _int: {
-            sml_array_int_t *new_array = (sml_array_int_t *) sml_alloc(sizeof(sml_array_int_t), 1);
+            sml_array_int_t *new_array = (sml_array_int_t *) sml_mem_alloc(sizeof(sml_array_int_t), 1);
             new_array->contents = (typeof(new_array->contents)) contents;
             new_array->last_pos = last_pos;
             new_array->capacity = sizeof_array;
@@ -82,7 +82,7 @@ void *sml_new_array(sml_array_types type, void *contents, unsigned long long int
 
         }
         case _long: {
-            sml_array_long_t *new_array = (sml_array_long_t *) sml_alloc(sizeof(sml_array_long_t), 1);
+            sml_array_long_t *new_array = (sml_array_long_t *) sml_mem_alloc(sizeof(sml_array_long_t), 1);
             new_array->contents = (typeof(new_array->contents)) contents;
             new_array->last_pos = last_pos;
             new_array->capacity = sizeof_array;
@@ -91,7 +91,7 @@ void *sml_new_array(sml_array_types type, void *contents, unsigned long long int
 
         }
         case _long_long: {
-            sml_array_llong_t *new_array = (sml_array_llong_t *) sml_alloc(sizeof(sml_array_llong_t), 1);
+            sml_array_llong_t *new_array = (sml_array_llong_t *) sml_mem_alloc(sizeof(sml_array_llong_t), 1);
             new_array->contents = (typeof(new_array->contents)) contents;
             new_array->last_pos = last_pos;
             new_array->capacity = sizeof_array;
@@ -99,7 +99,7 @@ void *sml_new_array(sml_array_types type, void *contents, unsigned long long int
 
         }
         case _float: {
-            sml_array_float_t *new_array = (sml_array_float_t *) sml_alloc(sizeof(sml_array_float_t), 1);
+            sml_array_float_t *new_array = (sml_array_float_t *) sml_mem_alloc(sizeof(sml_array_float_t), 1);
             new_array->contents = (typeof(new_array->contents)) contents;
             new_array->last_pos = last_pos;
             new_array->capacity = sizeof_array;
@@ -107,7 +107,7 @@ void *sml_new_array(sml_array_types type, void *contents, unsigned long long int
 
         }
         case _double: {
-            sml_array_double_t *new_array = (sml_array_double_t *) sml_alloc(sizeof(sml_array_double_t), 1);
+            sml_array_double_t *new_array = (sml_array_double_t *) sml_mem_alloc(sizeof(sml_array_double_t), 1);
             new_array->contents = (typeof(new_array->contents)) contents;
             new_array->last_pos = last_pos;
             new_array->capacity = sizeof_array;
@@ -115,7 +115,7 @@ void *sml_new_array(sml_array_types type, void *contents, unsigned long long int
 
         }
         case _long_double: {
-            sml_array_ldouble_t *new_array = (sml_array_ldouble_t *) sml_alloc(sizeof(sml_array_ldouble_t), 1);
+            sml_array_ldouble_t *new_array = (sml_array_ldouble_t *) sml_mem_alloc(sizeof(sml_array_ldouble_t), 1);
             new_array->contents = (typeof(new_array->contents)) contents;
             new_array->last_pos = last_pos;
             new_array->capacity = sizeof_array;
@@ -123,7 +123,7 @@ void *sml_new_array(sml_array_types type, void *contents, unsigned long long int
 
         }
         case _generic_array: {
-            sml_array_generic_t *new_array = (sml_array_generic_t *) sml_alloc(sizeof(sml_array_generic_t), 1);
+            sml_array_generic_t *new_array = (sml_array_generic_t *) sml_mem_alloc(sizeof(sml_array_generic_t), 1);
             new_array->contents = contents;
             new_array->last_pos = last_pos;
             new_array->capacity = sizeof_array;
