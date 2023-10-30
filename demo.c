@@ -3,7 +3,10 @@
 //
 
 #include <stdio.h>
+#include "common_bindings.h"
 
-int main(void){
-    printf("asd");
+int main(void) {
+    // generate tests for array.c
+
+    return 0;
 }

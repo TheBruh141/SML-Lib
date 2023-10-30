@@ -4,7 +4,6 @@ project(SML_lib C)
 set(CMAKE_C_STANDARD 23)
 # Define the source files for the library
 add_library(SML_lib
-        modules/literal_array.c
         modules/allocators.c
         modules/errors_and_logging.c
         modules/math.c
