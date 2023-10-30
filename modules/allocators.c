@@ -6,22 +6,16 @@
 #include "common_bindings.h"
 #include <stdlib.h>
 #include <stdio.h>
-
-
-#define DEBUG 1
-
+#include <string.h>
 
 void *sml_mem_alloc(unsigned long long how_much, unsigned long long sizeof_mem) {
     // check for overflow and underflow
-    CHECK(how_much > 0 &&
-          sizeof_mem > 0 &&
-          how_much * sizeof_mem > how_much
-    );
+    CHECK(how_much * sizeof_mem >= how_much);
 
-#if (DEBUG == 1)
+#if (defined DEBUG)
     return sml_mem_calloc(how_much, sizeof_mem);
 #else
-    return sml_malloc(how_much* sizeof_mem);
+    return sml_mem_malloc(how_much * (sizeof_mem));
 #endif
 }
 
@@ -37,43 +31,29 @@ void *__attribute_malloc__ sml_mem_calloc(unsigned long long how_much, unsigned 
     return new_mem;
 }
 
-void *sml_mem_realloc(void *ptr, unsigned long long new_requested_size) {
-    void *new_mem = realloc(ptr, new_requested_size);
-    if (new_mem == NULL) {
+void *sml_mem_realloc(void *ptr, unsigned long long new_requested_size, short unsigned retry) {
+    sml_pointer new_mem;
+    if (!retry) { retry = 1; }
 
-#ifdef SML_LIB_ERRORS_AND_LOGGING_H
-        sml_error_config config = init_sml_error("SMOL_REALLOC", false, NULL);
-        sml_throw_error_non_blocking(&config, ERROR_MEMORY_REALLOCATION, LOG_SEVERITY_ERROR, "cannot realloc on %s\nline = %d",
-                        __PRETTY_FUNCTION__, __LINE__);
-#else
-        printf("SMOL_REALLOC HAS FAILED. IF YOU WANT DETAILED ERROR LOGS PLEASE INCLUDE errors_and_logging.h IN YOUR FILE\n");
-        printf("cannot realloc on %s \nline = %d\",\n", __PRETTY_FUNCTION__, __LINE__);
-#endif
-        free(ptr);
-    }
+    do {
+        new_mem = realloc(ptr, new_requested_size);
+        if (new_mem == NULL) {
+            SML_LOG_INFO(stderr, "SML_MEM_REALLOC", "cannot realloc");
+        }
+    } while (retry-- > 0);
     return new_mem;
 }
 
-void *sml_mem_realloc_s(void *ptr, unsigned long long new_requested_size) {
-    void *new_mem = realloc(ptr, new_requested_size);
-    if (new_mem == NULL) {
-
-#ifdef SML_LIB_ERRORS_AND_LOGGING_H
-        sml_error_config config = init_sml_error("SMOL_REALLOC_S", false, NULL);
-                sml_throw_error_non_blocking(&config, ERROR_MEMORY_REALLOCATION, LOG_SEVERITY_ERROR, "cannot realloc on retrying %s\nline = %d",
-                                __PRETTY_FUNCTION__, __LINE__);
-#else
-        printf("SMOL_REALLOC HAS FAILED. RETRYING . IF YOU WANT DETAILED ERROR LOGS PLEASE INCLUDE errors_and_logging.h IN YOUR FILE\n");
-        printf("cannot realloc on %s \nline = %d\",\n", __PRETTY_FUNCTION__, __LINE__);
-#endif
-        free(new_mem);
-        void *another_mem = sml_mem_alloc(new_requested_size, 1);
-        return another_mem;
-    }
+// force a realloc by litterally using a different piece of memory.
+// it's slower but safer + more flexible.
+void *sml_mem_realloc_change_place(void *ptr, unsigned long long new_requested_size) {
+    const unsigned long long int size = sizeof(typeof(ptr[0]));
+    sml_pointer new_mem = sml_mem_alloc(new_requested_size, size);
+    memcpy(new_mem, ptr, new_requested_size);
     return new_mem;
 }
 
-
-
-// --- Typesets
-
+// the same as sml_mem_realloc_change_place but with a different name. to make it easier to type
+void *sml_mem_realloc_f(void *ptr, unsigned long long new_requested_size) {
+    return sml_mem_realloc_change_place(ptr, new_requested_size);
+}

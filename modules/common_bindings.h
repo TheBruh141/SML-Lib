@@ -7,6 +7,10 @@
 
 #ifndef SML_DIALECT_COMMON_BINDINGS_H
 #define SML_DIALECT_COMMON_BINDINGS_H
+/// CHANGE THIS TO YOUR DESIRES ///
+#define DEBUG
+/// UNDEF THIS IF YOU WANT TO RELEASE !! //
+
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -34,17 +38,22 @@
 #endif //MSC_VER
 #endif
 
-#ifndef CHECK
-#define CHECK(condition)    \
-    do {                    \
-        if (!(condition)) { \
-            fprintf(stderr, "\n[SML_COMMON_BINDINGS]\n\t->Check failed: %s\nline=%d\n", __PRETTY_FUNCTION__, __LINE__); \
-            exit(-1);       \
-        }                  \
-    } while (0)
-#endif
 
+// this is here for ONLY debug purposes. nearly every compiler will do dead code optimizations so if DEBUG is not defined CHECK statement will not be executed (im %90 sure)
+#if (defined DEBUG)
+#define CHECK(condition)        \
+        do {                    \
+            if (!(condition)) { \
+                fprintf(stderr, "\n[SML_COMMON_BINDINGS]\n\t->Check failed: %s\nline=%d\n", __PRETTY_FUNCTION__, __LINE__); \
+                exit(-1);       \
+            }                   \
+        } while (0);
 
+#else
+#define CHECK(condition)
+#endif // (defined DEBUG)
+
+// some quick macros for internal use. they are completely fit for outside use too :d
 #define CHECK_MEM(mem_ptr) CHECK(mem_ptr != NULL)
 
 #define EXIT_WITH_INFO (fprintf(stderr, "\n[SML_COMMON_BINDINGS]\n\t->exiting here : %s\nfile=%s\nline=%d\n", __PRETTY_FUNCTION__, __FILE__, __LINE__))
@@ -53,6 +62,10 @@ do {                           \
 fprintf(stream, "[SML_COMMON_BINDINGS] -> file : %s, function : %s ,line : %d",__FILE__, __PRETTY_FUNCTION__, __LINE__ );\
 } while(0)
 
+#define SML_LOG_INFO(stream, name, ...) \
+do {                           \
+fprintf(stream, "[%s] :: INFO ->  %s, file : %s, function : %s ,line : %d", name, __VA_ARGS__, __FILE__, __PRETTY_FUNCTION__, __LINE__ );\
+} while(0)
 
 #define sml_byte_t unsigned char
 #define sml_byte4_t sml_byte_t[4]
