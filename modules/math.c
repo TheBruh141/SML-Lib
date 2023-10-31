@@ -248,7 +248,7 @@ long double sml_log_pi(double x) // Returns the natural logarithm of x (base pi)
 // nlog(n) function
 // maybe the most important function in this whole library.
 // you cannot even believe how many simple things are being derived from this.
-// and yet they are showing this as the final boss in the educational system in turkey..
+// and yet they are showing this as the final boss in the educational system in Turkey..
 // _We definitely need a better education system_
 long double sml_nlog(double x, double n) {
 
@@ -258,7 +258,7 @@ long double sml_nlog(double x, double n) {
     long double mid;
     long double result;
 
-    while (right - left > LOGARITHM_ACC) { // Smaller tolerance can be used ie. (1e-15)
+    while (right - left > LOGARITHM_ACC) { // Smaller tolerance can be used i.e. (1e-15)
         mid = (left + right) / 2.0;
         result = sml_pow(mid, n);
 
@@ -335,7 +335,7 @@ double sml_sqrt(double n) // Returns the square root of x. is a fast boi
 // Returns the nth root of x in sml_math_t.
 // if you want the numerical result use the sml_nth_root_double() function.
 sml_math_t sml_nth_root(double num, double n) {
-    // you might think that this is a cheat code. but its not for advanced functions.
+    // you might think that this is a cheat code. but it's not for advanced functions.
     // you can always use the another version of this function to get the __correct__ result
     sml_math_t result;
     result.type = _irrational;

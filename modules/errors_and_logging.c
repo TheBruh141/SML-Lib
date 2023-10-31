@@ -129,7 +129,7 @@ sml_throw_error(sml_error_config *cfg, enum sml_error_codes err_code, enum sml_l
         snprintf(log_file_name, sizeof(log_file_name), "%s%s.log", cfg->log_file_location, ctime(&t));
         err_stream = fopen(log_file_name, "a");
     }
-    // if something goes wrong ie. unrestriceted memory access. this allows the code to gracefully fail
+    // if something goes wrong i.e. unrestricted memory access. this allows the code to gracefully fail
     if (err_stream == NULL) {
         printf("something went wrong in the %s\n%s\n", __FILE__, __PRETTY_FUNCTION__);
         printf("setting err_stream to stdout as fallback\n");
@@ -183,7 +183,7 @@ void sml_throw_error_non_blocking(sml_error_config *cfg, enum sml_error_codes er
                  sizeof(log_file_name), "%s%s.log", cfg->log_file_location, ctime(&t));
         err_stream = fopen(log_file_name, "a");
     }
-// if something goes wrong ie. unrestriceted memory access. this allows the code to gracefully fail
+// if something goes wrong i.e. unrestricted memory access. this allows the code to gracefully fail
     if (err_stream == NULL) {
         printf("something went wrong in the %s\n%s\n", __FILE__, __PRETTY_FUNCTION__);
         printf("setting err_stream to stdout as fallback\n");

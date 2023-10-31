@@ -32,10 +32,6 @@ _Bool sml_str_append(sml_str *dest, char *to_append);
 
 char *sml_str_get_sub_str(char *str, sml_size start, sml_size end);
 
-// It's fast because it has no branching and no extra safety measurements.
-// Use at your own risk
-char *sml_str_get_sub_str_fast(char *str, sml_size start, sml_size end);
-
 // prints the help message for this library.
 void sml_str_help();
 

@@ -4,26 +4,30 @@
 
 #include "sml_str.h"
 #include "common_bindings.h"
+#include "allocators.h"
 
 #include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
 
+// creates a new sml_str instance. Note. char* must be null terminated
 sml_str *sml_str_new(char *contents) {
     if (contents == NULL) {
         // since calloc zeroes everything we get a zero initialized str :D
         sml_str *new = (sml_str *) calloc(1, sizeof(sml_str));
         return new;
     }
-    sml_str *new = (sml_str *) malloc(sizeof(sml_str));
+    sml_str *new = (sml_str *) sml_mem_alloc(1, sizeof(sml_str));
     sml_size len = strlen(contents);
 
     new->capacity = len;
     new->last_index = len;
-    new->contents = (char *) malloc(sizeof(char) * len);
+    new->contents = (char *) sml_mem_alloc(len, sizeof(char));
     memcpy(new->contents, contents, len);
     return new;
 }
 
+// doubles the string's capacity
 // returns 0 if failed
 _Bool sml_str_double_capacity(sml_str *contents) {
     contents->capacity *= 2;
@@ -70,55 +74,11 @@ _Bool sml_str_append(sml_str *dest, char *to_append) {
 }
 
 char *sml_str_get_sub_str(char *str, sml_size start, sml_size end) {
-    if (NULL == str) {
-        fprintf(stderr,
-                "[SML_STR_LIB] : str cannot point to null.\n\t=> File Name :: %s, Line :: %d, Function Parameters ::  %s",
-                __FILE__, __LINE__, __PRETTY_FUNCTION__ );
-        return (char *) SML_STR_FAIL;
-    }
-    if (strlen(str) < end || start > strlen(str)) {
-        fprintf(stderr,
-                "[SML_STR_LIB] : string append failed in \nfile : %s\nline %d\n\t=> start or end cannot exceed the strings boundaries for memory safety and general program health (damn this is too formal)\n\tSTART = %llu, END = %llu, STRING BOUNDS (0,%lu)",
-                __FILE__, __LINE__, start, end, strlen(str));
-        return (char *) SML_STR_FAIL;
-    }
-
-
+    sml_size len = end - start;
+    char *sub_str = (char *) sml_mem_alloc(len, sizeof(char));
+    memcpy(sub_str, str + start, len);
+    return sub_str;
 }
-//
-//// ----- Algorithms ----
-//
-//// the most basic and the most unoptimized solution.
-//// PROS: has no preprocessing and minimal memory requirements.
-//// CONS: SLOW!
-//// TIME COMPLEXITY: O(mn), where m and n are the length of the strings.
-//sml_sub_str_arr sml_str_find_substring_naive(char *string, char *pattern) {
-//    sml_size count = 0;
-//    sml_size str_len = strlen(string);
-//    sml_size pattern_len = strlen(pattern);
-//
-//    sml_size capacity = str_len / pattern_len;
-//    sml_sub_str_arr arr = (sml_sub_str_arr) {
-//            .capacity = capacity,
-//            .contents = malloc(capacity * sizeof(char)),
-//            .last_index = 0,
-//    };
-//
-//    for (sml_size i = 0; i <= str_len - pattern_len; i++) {
-//        int j;
-//        for (j = 0; j < pattern_len; j++) {
-//            if (pattern[j] != string[i + j]) {
-//                break;
-//            }
-//        }
-//        if (j == pattern_len) {
-//            count++;
-//        }
-//    }
-//
-//    return count;
-//}
-
 void sml_str_help() {
 
     printf("[SML_STR_LIB] : ");

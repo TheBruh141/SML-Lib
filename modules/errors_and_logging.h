@@ -104,7 +104,7 @@ void
 sml_throw_error(sml_error_config *cfg, enum sml_error_codes err_code, enum sml_log_severity severity, char *msg,
                 ...);
 
-// exactly the same as sml_throw_error but it does not exit when encountering an error
+// exactly the same as sml_throw_error, but it does not exit when encountering an error
 void sml_throw_error_non_blocking(sml_error_config *cfg, enum sml_error_codes err_code, enum sml_log_severity severity,
                                   char *msg,
                                   ...);
