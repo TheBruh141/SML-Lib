@@ -10,16 +10,7 @@
 
 int main(void) {
     // generate tests for array.c
-    sml_size *a = sml_mem_alloc(100, sizeof(sml_size));
-    for (int i = 0; i < 100; i++) {
-        a[i] = i;
-        printf("%d - %llu\n",i, a[i]);
-    }
-    sml_size *b = sml_mem_realloc_change_place(a, 200);
-    for (int i = 100; i < 200; i++) {
-        b[i] = i;
-        printf("%d - %llu\n",i, b[i]);
-    }
-    free(a);
+    size_t a = 10;
+    sml_size b = 10;
     return 0;
 }

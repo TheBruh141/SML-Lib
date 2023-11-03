@@ -71,6 +71,7 @@ _Bool sml_str_append(sml_str *dest, char *to_append) {
     for (sml_size i = 0; i < len; i++) {
         dest->contents[dest->last_index + i] = to_append[i];
     }
+    return Sml_Success;
 }
 
 char *sml_str_get_sub_str(char *str, sml_size start, sml_size end) {
