@@ -5,6 +5,7 @@
 #include "file_utils.h"
 #include "errors_and_logging.h"
 #include "common_bindings.h"
+#include <stdio.h>
 
 sml_error_config *sml_internal_errors_and_logging_config() {
     sml_error_config *cfg = sml_errors_and_logging_init("SML_LIB_ERRORS_AND_LOGGING", false, NULL);

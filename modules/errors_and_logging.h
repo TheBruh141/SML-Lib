@@ -10,7 +10,9 @@
 #define PREDIFINED_LOG_FILE_PATH "./logs/"
 
 #ifndef CHECK
+
 #include <stdlib.h>
+
 #define CHECK(condition) \
     do { \
         if (!(condition)) { \
@@ -19,7 +21,6 @@
         } \
     } while (0)
 #endif
-
 
 #include <stdbool.h>
 
