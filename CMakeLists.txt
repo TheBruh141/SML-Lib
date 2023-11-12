@@ -16,8 +16,6 @@ add_library(SML_lib
         modules/file_utils.c
         modules/file_utils.h
         demo.c
-        modules/loading_bars.c
-        modules/loading_bars.h
         modules/terminal_colors.h
 )
 
