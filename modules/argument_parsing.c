@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void arg_parser_init(ArgParser* parser, int argc, char** argv, Arg* args, int num_args) {
+void sml_arg_parser_init(ArgParser* parser, int argc, char** argv, sml_arg_parser_args *args, int num_args) {
     parser->argc = argc;
     parser->argv = argv;
     parser->args = args;
@@ -16,7 +16,7 @@ void arg_parser_init(ArgParser* parser, int argc, char** argv, Arg* args, int nu
     }
 }
 
-void arg_parser_parse(ArgParser* parser) {
+void sml_arg_parser_parse(ArgParser* parser) {
     for (int i = 1; i < parser->argc; ++i) {
         char* arg = parser->argv[i];
 
@@ -68,7 +68,7 @@ void arg_parser_parse(ArgParser* parser) {
     }
 }
 
-void arg_parser_print_help(ArgParser* parser, const char* program_name) {
+void sml_arg_parser_print_help(ArgParser* parser, const char* program_name) {
     printf("Usage: %s [options]\n\n", program_name);
     printf("Options:\n");
 

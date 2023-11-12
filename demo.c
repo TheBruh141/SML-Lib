@@ -1,12 +1,12 @@
 // main.c
 #include "argument_parsing.h"
 #include <stdio.h>
-
+#include <string.h>
 #define DEBUG
 
 int main(int argc, char** argv) {
     // Define your command line arguments
-    Arg args[] = {
+    sml_arg_parser_args args[] = {
             {'a', "alpha", true, "Alpha parameter"},
             {'b', "beta", false, "Beta parameter"},
             {'c', "config", true, "Config file path"},
@@ -14,10 +14,10 @@ int main(int argc, char** argv) {
 
     // Initialize the argument parser
     ArgParser parser;
-    arg_parser_init(&parser, argc, argv, args, sizeof(args) / sizeof(args[0]));
+    sml_arg_parser_init(&parser, argc, argv, args, sizeof(args) / sizeof(args[0]));
 
     // Parse the command line arguments
-    arg_parser_parse(&parser);
+    sml_arg_parser_parse(&parser);
 
     // Access the parsed arguments
     for (int i = 0; i < parser.num_args; ++i) {
@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
 
     // Print help if needed
     if (argc < 2 || (argc == 2 && (strcmp(argv[1], "--help") == 0 || strcmp(argv[1], "-h") == 0))) {
-        arg_parser_print_help(&parser, argv[0]);
+        sml_arg_parser_print_help(&parser, argv[0]);
     }
 
     return 0;
