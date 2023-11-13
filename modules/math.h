@@ -387,22 +387,22 @@ int sml_max(int x, int y); // Returns the maximum of two integers.
 double sml_float_max(double x, double y); // Returns the maximum of two floating-point numbers.
 int sml_min(int x, int y); // returns the minimum of two integers.
 double sml_float_min(double x, double y); // returns the minimum of two floating-point numbers.
-float sml_pow_basic(double x, sml_size_t expo);
+float sml_pow_basic(double x, sml_size expo);
 
 // basic math functions; //
 bool sml_is_prime(unsigned long long is_prime); // Returns true if the number is prime
-sml_size_t sml_nth_prime(sml_size_t nth_prime); // Returns the nth sml_nth_prime number.
-sml_size_t sml_greatest_common_divisor(sml_size_t num1, sml_size_t num2); // returns the greatest common divisor (GCD)
-sml_size_t sml_smallest_common_multiple(sml_size_t num1, sml_size_t num2); // returns the smallest common multiple (GCM)
+sml_size sml_nth_prime(sml_size nth_prime); // Returns the nth sml_nth_prime number.
+sml_size sml_greatest_common_divisor(sml_size num1, sml_size num2); // returns the greatest common divisor (GCD)
+sml_size sml_smallest_common_multiple(sml_size num1, sml_size num2); // returns the smallest common multiple (GCM)
 
 
-sml_size_t sml_fac_size_t(double x); // returns the factorial of a double (in sml_size_t)
-sml_size_t sml_fac_size_t_int(sml_size_t_s x); // returns the factorial of a number (in sml_size_t)
-sml_size_t sml_fac_size_t_unsigned(sml_size_t x); // returns the factorial of an unsigned number (in sml_size_t)
+sml_size sml_fac_size_t(double x); // returns the factorial of a double (in sml_size_t)
+sml_size sml_fac_size_t_int(sml_size_s x); // returns the factorial of a number (in sml_size_t)
+sml_size sml_fac_size_t_unsigned(sml_size x); // returns the factorial of an unsigned number (in sml_size_t)
 double sml_fac(double n); // returns the factorial of a double (in sml_size_t)
 int sml_fac_int(int n); // returns the factorial of an integer (in int)
 // e; //
-long double sml_e(sml_size_t accuracy); // Returns the e constant to a given accuracy
+long double sml_e(sml_size accuracy); // Returns the e constant to a given accuracy
 
 // exponential functions; //
 long double sml_exp_pi(void); // Returns the exponential value of x (e^pi).
@@ -416,7 +416,7 @@ long double sml_nlog(double x, double n); // Returns the natural logarithm of x 
 
 long double sml_pow2(double x); // Returns 2 raised to the power of x.
 long double sml_pow10(double x); // Returns 10 raised to the power of x.
-long double sml_pow_only_positive(long double x, sml_size_t y); //  Returns x^y if y > 0
+long double sml_pow_only_positive(long double x, sml_size y); //  Returns x^y if y > 0
 long double sml_pow_only_negative(long double x, long double y); //  Returns x^y if y < 0
 long double sml_pow(long double base, long double expo); // Returns x raised to the power of y (x^y).
 int sml_pow_basic_int(int x, int expo); // basic pow. internally used for trigonometric calculations.
@@ -425,7 +425,7 @@ int sml_pow_basic_int(int x, int expo); // basic pow. internally used for trigon
 sml_math_t sml_nth_root(double x, double n);
 
 double sml_sqrt(double n); // Returns the square root of x.
-double sml_nth_root_double(double x, sml_size_t_s n); // Returns the nth root of x
+double sml_nth_root_double(double x, sml_size_s n); // Returns the nth root of x
 
 typedef struct {
     sml_math_t value_rad; //
@@ -468,7 +468,7 @@ double sml_round(double x); // Rounds x to the nearest integer.
 //misc Mathematical Functions; //
 double sml_fmod(double x, double y); // Returns the remainder when x is divided by y.
 
-sml_size_t sml_fib(sml_size_t n); // Returns the nth fibonacci number
+sml_size sml_fib(sml_size n); // Returns the nth fibonacci number
 
 
 //Combinations and Permutations:
@@ -505,8 +505,8 @@ unsigned long long sml_ccr(int n, int r); // Returns the circular combination CC
 
 // Matrix Operations; //
 typedef struct {
-    sml_size_t rows;
-    sml_size_t cols;
+    sml_size rows;
+    sml_size cols;
     sml_math_t **data;
 } sml_matrix_t;
 
@@ -516,7 +516,7 @@ sml_math_t sml_math_t_add(sml_math_t *num1, sml_math_t *num2);
 
 void sml_math_t_print(sml_math_t *num, FILE *stream);
 
-sml_matrix_t *sml_matrix_create(sml_size_t rows, sml_size_t cols);
+sml_matrix_t *sml_matrix_create(sml_size rows, sml_size cols);
 
 void sml_matrix_destroy(sml_matrix_t *matrix);
 

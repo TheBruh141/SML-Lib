@@ -1,33 +1,33 @@
-//
-// Created by bruh on 10/7/23.
-//
-
+// main.c
+#include "argument_parsing.h"
 #include <stdio.h>
-#include "modules/errors_and_logging.h"
-#include "modules/common_bindings.h"
-#include "modules/math.h"
+#include <string.h>
+#define DEBUG
 
-int main(void) {
-    printf("hello you!\n");
-    printf("this is a file where you can try sml_lib without copying it :D\n");
+int main(int argc, char** argv) {
+    // Define your command line arguments
+    sml_arg_parser_args args[] = {
+            {'a', "alpha", true, "Alpha parameter"},
+            {'b', "beta", false, "Beta parameter"},
+            {'c', "config", true, "Config file path"},
+    };
 
-    sml_error_config err_conf = init_sml_error(
-            "SML_SANDBOX",
-            false,
-            NULL
-    );
+    // Initialize the argument parser
+    ArgParser parser;
+    sml_arg_parser_init(&parser, argc, argv, args, sizeof(args) / sizeof(args[0]));
 
-    // math.h does not rely on any preexisting math library. Let's check accuracy!
-    printf("%f", LOGARITHM_ACC);
+    // Parse the command line arguments
+    sml_arg_parser_parse(&parser);
 
-    // since we know that sin^2 + cos^2 = 1
-    for (sml_size_t degree = 0; degree < 90; degree++) {
-        printf("sin = %f, cos = %f, Accuracy = %f\n", sml_sin(degree), sml_cos(degree),
-               sml_float_abs((sml_pow(sml_sin(degree), 2) + sml_pow(sml_cos(degree), 2))));
+    // Access the parsed arguments
+    for (int i = 0; i < parser.num_args; ++i) {
+        printf("Argument: %s, Value: %s\n", parser.args[i].long_name, parser.args[i].value);
     }
-    // note that using --fast-math will change the output since we are not using any platform/compiler-specific instructions
-    // or any fancy tricks. This is pure math/skill issues.
-    sml_throw_error(&err_conf, ERROR_OK, LOG_SEVERITY_INFO, "DONE!, %s", "With Style");
+
+    // Print help if needed
+    if (argc < 2 || (argc == 2 && (strcmp(argv[1], "--help") == 0 || strcmp(argv[1], "-h") == 0))) {
+        sml_arg_parser_print_help(&parser, argv[0]);
+    }
 
     return 0;
 }

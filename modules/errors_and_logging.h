@@ -9,10 +9,10 @@
 #define MAX_SML_NAME_LEN 128
 #define PREDIFINED_LOG_FILE_PATH "./logs/"
 
-#ifdef CHECK
-#undef CHECK
-#endif
+#ifndef CHECK
+
 #include <stdlib.h>
+
 #define CHECK(condition) \
     do { \
         if (!(condition)) { \
@@ -20,7 +20,7 @@
             exit(-1); \
         } \
     } while (0)
-
+#endif
 
 #include <stdbool.h>
 
@@ -81,16 +81,16 @@ enum sml_log_severity {
 };
 
 typedef struct {
-    char name[MAX_SML_NAME_LEN];
     bool has_log_file;
     bool has_set_log_file;
     // this is the __place__ where the log file will be
     // not the name if the file
-    char *log_file_location;
+    const char *log_file_location;
+    const char *name;
 } sml_error_config;
 
-sml_error_config
-init_sml_error(char name[MAX_SML_NAME_LEN], bool has_log_file, char log_file_location[MAX_SML_NAME_LEN]);
+sml_error_config *
+sml_errors_and_logging_init(const char *name, bool has_log_file, const char *log_file_location);
 
 char *sml_log_severity_to_string(enum sml_log_severity severity);
 
@@ -105,7 +105,7 @@ void
 sml_throw_error(sml_error_config *cfg, enum sml_error_codes err_code, enum sml_log_severity severity, char *msg,
                 ...);
 
-// exactly the same as sml_throw_error but it does not exit when encountering an error
+// exactly the same as sml_throw_error, but it does not exit when encountering an error
 void sml_throw_error_non_blocking(sml_error_config *cfg, enum sml_error_codes err_code, enum sml_log_severity severity,
                                   char *msg,
                                   ...);
