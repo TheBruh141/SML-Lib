@@ -24,8 +24,3 @@ Please don't be afraid to modifiy the library. You will not be disappointed
 This library is not intended to be a one for all library but a starting point for implementing your own and custom libraries and extensions. Please feel free to fork it
  
 ---
-
-> # Note that this is the dev build and may not always work as intended.
-
-
-
