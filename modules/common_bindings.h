@@ -23,11 +23,11 @@
 // REFERENCE: how to install scoop :: https://scoop.sh/
 
 // To make it more compiler agnostic, if a pretty function is not defined, we define it
-#if (__clang__ || __gnu_linux__)  // NOLINT(*-reserved-identifier)
+#if !(__clang__ || __gnu_linux__)  // NOLINT(*-reserved-identifier)
 
 #define __PRETTY_FUNCTION__ __func__ // NOLINT(*-reserved-identifier)
 
-#ifdef MSC_VER
+#elif defined (MSC_VER)
 #ifndef SML_SUPPRESS_MSVC_WARNING
 #warning "[SML_COMMON_BINDINGS] : SML_LIB is being licensed under the BSD 3-clause license. This permits the usage of all compilers, but please note that MSVC is: "
 #warning "1. Not free software. "
@@ -36,8 +36,6 @@
 #warning "#define SML_SUPPRESS_MSVC_WARNING "
 #endif //SML_SUPPRESS_MSVC_WARNING
 #endif //MSC_VER
-#endif
-
 
 // this is here for ONLY debug purposes. nearly every compiler will do dead code optimizations so if DEBUG is not defined CHECK statement will not be executed (im %90 sure)
 #if (defined DEBUG)
@@ -68,8 +66,6 @@ fprintf(stream, "[%s] :: INFO ->  %s, file : %s, function : %s ,line : %d", name
 } while(0)
 
 #define sml_byte_t unsigned char
-#define sml_byte4_t sml_byte_t[4]
-#define sml_byte8_t sml_byte_t[8]
 
 // void* but *-*fancy*-* :D
 // tbh it is used for clarify if you are actually pointing to a datastructures or an array.
