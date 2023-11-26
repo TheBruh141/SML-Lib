@@ -31,6 +31,7 @@ void *__attribute_malloc__ sml_mem_calloc(unsigned long long how_much, unsigned 
     return new_mem;
 }
 
+// a realloc function with a failsafe and a retrying function
 void *sml_mem_realloc(void *ptr, unsigned long long new_requested_size, short unsigned retry) {
     sml_pointer new_mem;
     if (!retry) { retry = 1; }
@@ -38,7 +39,7 @@ void *sml_mem_realloc(void *ptr, unsigned long long new_requested_size, short un
     do {
         new_mem = realloc(ptr, new_requested_size);
         if (new_mem == NULL) {
-            SML_LOG_INFO(stderr, "SML_MEM_REALLOC", "cannot realloc");
+            SML_LOG_INFO(stderr, "SML_MEM_REALLOC", "cannot realloc, retrying ...");
         }
     } while (retry-- > 0);
     return new_mem;
