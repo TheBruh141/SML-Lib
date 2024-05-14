@@ -84,7 +84,9 @@ fprintf(stream, "[%s] :: INFO ->  %s, file : %s, function : %s ,line : %d", name
 typedef enum {
     Sml_Fail = 0,
     Sml_Success = 1,
-    Sml_Imporper_Function_Use = 2,
+    Sml_Improper_Function_Use = 2,
 } __attribute__((__packed__)) sml_common_error;
+
+
 
 #endif //SML_DIALECT_COMMON_BINDINGS_H
