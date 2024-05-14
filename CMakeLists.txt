@@ -18,6 +18,7 @@ add_library(SML_lib
         modules/terminal_colors.h
         modules/sml_cstr.c
         modules/sml_cstr.h
+        modules/internal_lib_utils.h
 )
 
 
@@ -27,7 +28,8 @@ target_include_directories(SML_lib PUBLIC
 
 # Define the source files for the executable
 add_executable(demo
-        demo.c)
+        demo.c
+)
 
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3")

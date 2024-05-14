@@ -79,8 +79,14 @@ fprintf(stream, "[%s] :: INFO ->  %s, file : %s, function : %s ,line : %d", name
 // signed version of sml_size_t
 #define sml_size_s long long
 
-// basic error reporting for libraries. we don't want to depend on errors_and_logging.c
+// returns the number of elements in an array
+#define sizeof_arr(x) (sizeof(x) / sizeof(x[0]))
 
+// returns the number of elements in __VA_ARGS__
+#define sizeof_va(...) (sizeof(__VA_ARGS__) / sizeof(__VA_ARGS__[0]))
+
+
+// basic error reporting for libraries. we don't want to depend on errors_and_logging.c
 typedef enum {
     Sml_Fail = 0,
     Sml_Success = 1,
