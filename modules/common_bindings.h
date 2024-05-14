@@ -23,11 +23,11 @@
 // REFERENCE: how to install scoop :: https://scoop.sh/
 
 // To make it more compiler agnostic, if a pretty function is not defined, we define it
-#if (__clang__ || __gnu_linux__)  // NOLINT(*-reserved-identifier)
+#if !(__clang__ || __gnu_linux__)  // NOLINT(*-reserved-identifier)
 
 #define __PRETTY_FUNCTION__ __func__ // NOLINT(*-reserved-identifier)
 
-#ifdef MSC_VER
+#elif defined (MSC_VER)
 #ifndef SML_SUPPRESS_MSVC_WARNING
 #warning "[SML_COMMON_BINDINGS] : SML_LIB is being licensed under the BSD 3-clause license. This permits the usage of all compilers, but please note that MSVC is: "
 #warning "1. Not free software. "
@@ -36,8 +36,6 @@
 #warning "#define SML_SUPPRESS_MSVC_WARNING "
 #endif //SML_SUPPRESS_MSVC_WARNING
 #endif //MSC_VER
-#endif
-
 
 // this is here for ONLY debug purposes. nearly every compiler will do dead code optimizations so if DEBUG is not defined CHECK statement will not be executed (im %90 sure)
 #if (defined DEBUG)
@@ -79,16 +77,32 @@ fprintf(stream, "[%s] :: INFO ->  %s, file : %s, function : %s ,line : %d", name
 // in the end both are interchangeable with another :D
 #define sml_pointer void*
 
+// void* but *-*fancy*-* :D
+// tbh it is used for clarify if you are actually pointing to a datastructures or an array.
+// i.e.:
+//     sml_pointer a = &var;
+//     void* a = another_var;
+// in the end both are interchangeable with another :D
+#define sml_pointer void*
+
 #define sml_size unsigned long long
 // signed version of sml_size_t
 #define sml_size_s long long
 
-// basic error reporting for libraries. we don't want to depend on errors_and_logging.c
+// returns the number of elements in an array
+#define sizeof_arr(x) (sizeof(x) / sizeof(x[0]))
 
+// returns the number of elements in __VA_ARGS__
+#define sizeof_va(...) (sizeof(__VA_ARGS__) / sizeof(__VA_ARGS__[0]))
+
+
+// basic error reporting for libraries. we don't want to depend on errors_and_logging.c
 typedef enum {
     Sml_Fail = 0,
     Sml_Success = 1,
-    Sml_Imporper_Function_Use = 2,
+    Sml_Improper_Function_Use = 2,
 } __attribute__((__packed__)) sml_common_error;
+
+
 
 #endif //SML_DIALECT_COMMON_BINDINGS_H
