@@ -110,6 +110,6 @@ void sml_throw_error_non_blocking(sml_error_config *cfg, enum sml_error_codes er
                                   char *msg,
                                   ...);
 
-void test_error_lib(void);
+static void test_error_lib(void);
 
 #endif //SML_LIB_ERRORS_AND_LOGGING_H
