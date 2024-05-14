@@ -66,6 +66,16 @@ fprintf(stream, "[%s] :: INFO ->  %s, file : %s, function : %s ,line : %d", name
 } while(0)
 
 #define sml_byte_t unsigned char
+#define sml_byte4_t sml_byte_t[4]
+#define sml_byte8_t sml_byte_t[8]
+
+// void* but *-*fancy*-* :D
+// tbh it is used for clarify if you are actually pointing to a datastructures or an array.
+// i.e.:
+//     sml_pointer a = &var;
+//     void* a = another_var;
+// in the end both are interchangeable with another :D
+#define sml_pointer void*
 
 // void* but *-*fancy*-* :D
 // tbh it is used for clarify if you are actually pointing to a datastructures or an array.
