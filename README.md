@@ -1,3 +1,6 @@
+>[!important]
+>this project is in an hiatus at the moment of writing. I'll be coming back to this. if you want to improve it it's all free game tho :D
+
 # SML Lib
 
 > Thank you for using this library. 
