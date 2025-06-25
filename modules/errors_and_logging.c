@@ -3,14 +3,12 @@
 //
 
 #include "errors_and_logging.h"
+#include "common_bindings.h"
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
-
-
-#define DEBUG 1
 
 
 char *sml_error_to_string(enum sml_error_codes err_code) {
@@ -168,7 +166,7 @@ void sml_throw_error_non_blocking(sml_error_config *cfg, enum sml_error_codes er
  */
 
     static unsigned long long id = 1;
-    FILE *err_stream = NULL;
+    FILE *err_stream = nullptr;
     if (!cfg->has_log_file) {
         if (severity == LOG_SEVERITY_DEBUG || severity == LOG_SEVERITY_INFO) {
             err_stream = stdout;
@@ -177,13 +175,13 @@ void sml_throw_error_non_blocking(sml_error_config *cfg, enum sml_error_codes er
             err_stream = stderr;
         }
     } else {
-        time_t t = time(NULL);
+        time_t t = time(nullptr);
         char log_file_name[MAX_SML_NAME_LEN];  // Allocate space for the log file name
         snprintf(log_file_name,
                  sizeof(log_file_name), "%s%s.log", cfg->log_file_location, ctime(&t));
         err_stream = fopen(log_file_name, "a");
     }
-// if something goes wrong i.e. unrestricted memory access. this allows the code to gracefully fail
+// if something goes wrong, i.e., unrestricted memory access. this allows the code to gracefully fail
     if (err_stream == NULL) {
         printf("something went wrong in the %s\n%s\n", __FILE__, __PRETTY_FUNCTION__);
         printf("setting err_stream to stdout as fallback\n");
@@ -228,32 +226,3 @@ sml_error_config *sml_errors_and_logging_init(const char *name, bool has_log_fil
 
     return result;
 }
-
-#if (DEBUG == 1)
-
-void test_error_lib(void) {
-
-    sml_error_config *cfg = sml_errors_and_logging_init("test_error_lib", false, NULL);
-    sml_throw_error(cfg, ERROR_GENERIC, LOG_SEVERITY_DEBUG, "test_error_lib");
-    sml_throw_error(cfg, ERROR_GENERIC, LOG_SEVERITY_INFO, "test_error_lib");
-    sml_throw_error(cfg, ERROR_GENERIC, LOG_SEVERITY_WARNING, "test_error_lib");
-    sml_throw_error(cfg, ERROR_GENERIC, LOG_SEVERITY_ERROR, "test_error_lib");
-    sml_throw_error(cfg, ERROR_GENERIC, LOG_SEVERITY_DEPRECATION, "test_error_lib");
-
-    printf("changing cfg to file based\n");
-    cfg = sml_errors_and_logging_init("test_error_lib", true, "test_error_lib.log");
-    sml_throw_error(cfg, ERROR_GENERIC, LOG_SEVERITY_DEBUG, "test_error_lib");
-    sml_throw_error(cfg, ERROR_GENERIC, LOG_SEVERITY_INFO, "test_error_lib");
-    sml_throw_error(cfg, ERROR_GENERIC, LOG_SEVERITY_WARNING, "test_error_lib");
-    sml_throw_error(cfg, ERROR_GENERIC, LOG_SEVERITY_ERROR, "test_error_lib");
-    sml_throw_error(cfg, ERROR_GENERIC, LOG_SEVERITY_DEPRECATION, "test_error_lib");
-    free(cfg);
-
-    printf("done\n");
-}
-
-#else
-void test_error_lib(void) {
-    printf("TO USE THIS FUNCTINO YOU NEED TO ENABLE DEBUG MODE ON IN THE HEADER FILE %s\n", __FILE__);
-}
-#endif

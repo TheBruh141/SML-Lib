@@ -17,12 +17,12 @@ sml_str *sml_str_new(char *contents) {
         sml_str *new = (sml_str *) calloc(1, sizeof(sml_str));
         return new;
     }
-    sml_str *new = (sml_str *) sml_mem_alloc(1, sizeof(sml_str));
+    sml_str *new = (sml_str *) sml_alloc(1, sizeof(sml_str));
     sml_size len = strlen(contents);
 
     new->capacity = len;
     new->last_index = len;
-    new->contents = (char *) sml_mem_alloc(len, sizeof(char));
+    new->contents = (char *) sml_alloc(len, sizeof(char));
     memcpy(new->contents, contents, len);
     return new;
 }
@@ -76,7 +76,7 @@ _Bool sml_str_append(sml_str *dest, char *to_append) {
 
 char *sml_str_get_sub_str(char *str, sml_size start, sml_size end) {
     sml_size len = end - start;
-    char *sub_str = (char *) sml_mem_alloc(len, sizeof(char));
+    char *sub_str = (char *) sml_alloc(len, sizeof(char));
     memcpy(sub_str, str + start, len);
     return sub_str;
 }

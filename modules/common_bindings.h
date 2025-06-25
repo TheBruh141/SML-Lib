@@ -5,19 +5,14 @@
 // NOTE : these are just common macros/bindings.
 // This can be used as a headless file
 
-#ifndef SML_DIALECT_COMMON_BINDINGS_H
-#define SML_DIALECT_COMMON_BINDINGS_H
-/// CHANGE THIS TO YOUR DESIRES ///
-#define DEBUG
-/// UNDEF THIS IF YOU WANT TO RELEASE !! //
+#ifndef SML_COMMON_BINDINGS_H
+#define SML_COMMON_BINDINGS_H
 
-
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 // Check if the compiler is mainstream i.e.: Clang, Gcc, cc...
-// NOTE: msvc may be mainstream, but it is microsoft and is non-free software.
-//       If you are on Windows, please use another compiler...
+// NOTE: MSVC may be mainstream, but it is microsoft and is non-free software.
 // REFERENCE: installing clang on windows :: https://scoop.sh/#/apps?q=clang&id=430a8bf29e6c4cbf98cb9e150aa76e663133c6ed
 // REFERENCE: installing gcc on windows :: https://scoop.sh/#/apps?q=gcc&id=fd50c09a38b69bd72e3483de086df59b976dcfbd
 // REFERENCE: how to install scoop :: https://scoop.sh/
@@ -27,20 +22,11 @@
 
 #define __PRETTY_FUNCTION__ __func__ // NOLINT(*-reserved-identifier)
 
-#ifdef MSC_VER
-#ifndef SML_SUPPRESS_MSVC_WARNING
-#warning "[SML_COMMON_BINDINGS] : SML_LIB is being licensed under the BSD 3-clause license. This permits the usage of all compilers, but please note that MSVC is: "
-#warning "1. Not free software. "
-#warning "2. May not work seamlessly with other systems. (This may not restrict the abilities of SML_LIB but it can impact the capabilities of **YOUR** code in other operating systems). "
-#warning "To suppress this message, add the following line at the top of your main file: "
-#warning "#define SML_SUPPRESS_MSVC_WARNING "
-#endif //SML_SUPPRESS_MSVC_WARNING
-#endif //MSC_VER
 #endif
 
 
 // this is here for ONLY debug purposes. nearly every compiler will do dead code optimizations so if DEBUG is not defined CHECK statement will not be executed (im %90 sure)
-#if (defined DEBUG)
+#if (defined DEBUG && !defined CHECK)
 #define CHECK(condition)        \
         do {                    \
             if (!(condition)) { \
@@ -49,8 +35,6 @@
             }                   \
         } while (0);
 
-#else
-#define CHECK(condition)
 #endif // (defined DEBUG)
 
 // some quick macros for internal use. they are completely fit for outside use too :d
@@ -91,4 +75,4 @@ typedef enum {
     Sml_Imporper_Function_Use = 2,
 } __attribute__((__packed__)) sml_common_error;
 
-#endif //SML_DIALECT_COMMON_BINDINGS_H
+#endif //SML_COMMON_BINDINGS_H

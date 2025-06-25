@@ -33,7 +33,7 @@ enum sml_error_codes {
     ERROR_INVALID_INPUT = 2,  // Invalid input data
     ERROR_OUT_OF_MEMORY = 3,  // Memory allocation failed (generic)
     ERROR_IO_ERROR = 4,       // IO error (probably user error)
-    ERROR_UNSUPPORTED = 5,    // Feature not supported
+    ERROR_UNSUPPORTED = 5,    // Feature is not supported
     ERROR_OVERFLOW = 6,       // if an overflow is detected
     ERROR_INVALID_STATE = 7,  // if an invalid state is detected
 

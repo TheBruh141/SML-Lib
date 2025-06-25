@@ -2,8 +2,8 @@
 // Created by bruhpc on 10/16/23.
 //
 
-#ifndef SML_DIALECT_SML_STR_H
-#define SML_DIALECT_SML_STR_H
+#ifndef SML_STR_H
+#define SML_STR_H
 
 #include "common_bindings.h"
 
@@ -35,4 +35,4 @@ char *sml_str_get_sub_str(char *str, sml_size start, sml_size end);
 // prints the help message for this library.
 void sml_str_help();
 
-#endif //SML_DIALECT_SML_STR_H
+#endif //SML_STR_H

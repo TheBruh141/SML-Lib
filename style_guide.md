@@ -89,7 +89,7 @@ void test_error_lib(void) {
 #### Debug Mode
 
 - Enable and disable debug mode through preprocessor directives, as shown in the provided code.
-- Use debug mode for debugging and development purposes, and ensure it doesn't affect the production code.
+- Use debug mode for debugging and development, and ensure it doesn't affect the production code.
 
 ```c
 #if (DEBUG == 1)
