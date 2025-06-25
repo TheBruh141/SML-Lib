@@ -6,8 +6,6 @@
 #include "unity.h"
 #include <linalg.h>
 
-//TODO: implement malloc testing
-
 void setUp(void) {}
 void tearDown(void) {}
 
