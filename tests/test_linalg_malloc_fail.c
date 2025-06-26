@@ -23,7 +23,7 @@ void test_new_vec_f_zeroes_malloc_failure(void) {
 
 void test_as_string_vec_f_empty_malloc_failure(void) {
     // for an empty vector, as_string_vec_f does a malloc(3)
-    Vector_f v = { .size = 0, .data = NULL };
+    Vector_f v = { .size = 0, .data = nullptr };
     char *s = as_string_vec_f(v);
     TEST_ASSERT_NULL(s);
 }

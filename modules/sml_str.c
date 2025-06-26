@@ -1,90 +1,93 @@
-//
-// Created by bruhpc on 10/16/23.
-//
 
 #include "sml_str.h"
-#include "common_bindings.h"
 #include "allocators.h"
 
 #include <stdio.h>
 #include <string.h>
-#include <stdarg.h>
+#include <stdlib.h>
 
-// creates a new sml_str instance. Note. char* must be null terminated
-sml_str *sml_str_new(char *contents) {
-    if (contents == NULL) {
-        // since calloc zeroes everything we get a zero initialized str :D
-        sml_str *new = (sml_str *) calloc(1, sizeof(sml_str));
-        return new;
-    }
-    sml_str *new = (sml_str *) sml_alloc(1, sizeof(sml_str));
+sml_str *sml_str_new(const char *contents) {
+    sml_str *new = calloc(1, sizeof(sml_str));
+    if (!new) return NULL;
+
+    if (!contents) return new;
+
     sml_size len = strlen(contents);
-
-    new->capacity = len;
+    new->capacity = len + 1;
     new->last_index = len;
-    new->contents = (char *) sml_alloc(len, sizeof(char));
+
+    new->contents = malloc(new->capacity);
+    if (!new->contents) {
+        free(new);
+        return NULL;
+    }
+
     memcpy(new->contents, contents, len);
+    new->contents[len] = '\0';
     return new;
 }
 
-// doubles the string's capacity
-// returns 0 if failed
-_Bool sml_str_double_capacity(sml_str *contents) {
-    contents->capacity *= 2;
-    char *fallback = (char *) realloc(contents->contents, contents->capacity);
-    if (fallback == NULL) {
-        fprintf(stderr, "[SML_STR_LIB] : string reallocation failed in \nfile : %s\nline %d", __FILE__, __LINE__);
-        contents->capacity /= 2;
-        return SML_STR_FAIL;
-    }
-    contents->contents = fallback;
-    return SML_STR_SUCCESS;
+void sml_str_free(sml_str *str) {
+    if (!str) return;
+    free(str->contents);
+    free(str);
 }
 
-// rather than reallocation with realloc we are using malloc to copy from a -> b.
-// NOTE: this function is way slower in paper. have not done tests tho.
-_Bool sml_str_double_capacity_force(sml_str *contents) {
-    contents->capacity *= 2;
-    char *new_content = (char *) malloc(sizeof(char) * contents->capacity);
-
-    if (new_content == NULL) {
-        fprintf(stderr, "[SML_STR_LIB] : string reallocation_force failed in \nfile : %s\nline %d", __FILE__, __LINE__);
-        return SML_STR_FAIL;
+_Bool sml_str_double_capacity(sml_str *str) {
+    sml_size new_cap = str->capacity * 2;
+    char *temp = realloc(str->contents, new_cap);
+    if (!temp) {
+        str->capacity /= 2;
+        return Sml_Fail;
     }
-
-    memcpy(new_content, contents->contents, contents->capacity / 2);
-    free(contents->contents);
-    contents->contents = new_content;
-    return SML_STR_SUCCESS;
-}
-
-
-_Bool sml_str_append(sml_str *dest, char *to_append) {
-    sml_size len = strlen(to_append);
-    while (dest->capacity <= len + dest->last_index) {
-        if (SML_STR_FAIL == sml_str_double_capacity(dest)) {
-            if (SML_STR_FAIL == sml_str_double_capacity_force(dest)) {
-                return SML_STR_FAIL;
-            }
-        }
-    }
-    for (sml_size i = 0; i < len; i++) {
-        dest->contents[dest->last_index + i] = to_append[i];
-    }
+    str->contents = temp;
+    str->capacity = new_cap;
     return Sml_Success;
 }
 
-char *sml_str_get_sub_str(char *str, sml_size start, sml_size end) {
+_Bool sml_str_double_capacity_force(sml_str *str) {
+    sml_size new_cap = str->capacity * 2;
+    char *temp = malloc(new_cap);
+    if (!temp) return Sml_Fail;
+
+    memcpy(temp, str->contents, str->capacity);
+    free(str->contents);
+    str->contents = temp;
+    str->capacity = new_cap;
+    return Sml_Success;
+}
+
+_Bool sml_str_append(sml_str *str, const char *to_append) {
+    if (!str || !to_append) return Sml_Fail;
+
+    sml_size len = strlen(to_append);
+    while (str->capacity <= str->last_index + len) {
+        if (Sml_Fail == sml_str_double_capacity(str)) {
+            if (Sml_Fail == sml_str_double_capacity_force(str)) {
+                return Sml_Fail;
+            }
+        }
+    }
+
+    memcpy(str->contents + str->last_index, to_append, len);
+    str->last_index += len;
+    str->contents[str->last_index] = '\0';
+    return Sml_Success;
+}
+
+char *sml_str_get_sub_str(const char *str, sml_size start, sml_size end) {
+    if (!str || end <= start) return NULL;
+
     sml_size len = end - start;
-    char *sub_str = (char *) sml_alloc(len, sizeof(char));
-    memcpy(sub_str, str + start, len);
-    return sub_str;
-}
-void sml_str_help() {
+    char *sub = malloc(len + 1);
+    if (!sub) return NULL;
 
-    printf("[SML_STR_LIB] : ");
-    printf("\t # Defines ");
-    printf("1. SML_STR_MAKE_GENERIC : removes the prefix from types defined in this module. ie. sml_str -> str");
-
+    memcpy(sub, str + start, len);
+    sub[len] = '\0';
+    return sub;
 }
 
+void sml_str_help(void) {
+    puts("[SML_STR] Defines available:");
+    puts("\t- SML_STR_MAKE_GENERIC: typedefs `sml_str` as `str`.");
+}
